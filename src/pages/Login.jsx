@@ -14,7 +14,6 @@ function Login() {
 
     }
 
-
     return (
         <div className="min-h-screen bg-gray-50 flex justify-center items-center p-4">
             <form
@@ -28,6 +27,8 @@ function Login() {
                     className={inputStyle}
                     name="username"
                     placeholder="username"
+                    onChange={hdlChange}
+                    value={formLogin.username}
 
                 ></input>
 
@@ -39,6 +40,8 @@ function Login() {
                     className={inputStyle}
                     name="password"
                     placeholder="password"
+                    onChange={hdlChange}
+                    value={formLogin.password}
 
                 ></input>
 
