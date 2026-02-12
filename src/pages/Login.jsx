@@ -1,10 +1,18 @@
+import axios from "axios";
 import { useState } from "react";
+import useUserStore from "../stores/userStore";
+import { useNavigate } from "react-router";
 
 function Login() {
     const [formLogin, setFormLogin] = useState({
         username: "",
         password: ""
     })
+
+
+    const setUser = useUserStore((state) => state.setUser)
+    const setToken = useUserStore((state) => state.setToken)
+    const navigate = useNavigate()
 
     const inputStyle = "border p-0.5 px-2 border-gray-500 rounded-md";
 
@@ -14,10 +22,21 @@ function Login() {
 
     }
 
+    const hdlSubmit = async (e) => {
+        e.preventDefault()
+        const res = await axios.post("https://dummyjson.com/auth/login", formLogin)
+        console.log(res.data)
+        const { image, lastName, firstName, username, email, accessToken } = res.data
+        setUser({ image, lastName, firstName, username, email })
+        setToken(accessToken)
+        navigate('/profile')
+    }
+
+    console.log(formLogin)
     return (
         <div className="min-h-screen bg-gray-50 flex justify-center items-center p-4">
             <form
-
+                onSubmit={hdlSubmit}
                 className="bg-white p-6 rounded-md w-full max-w-md flex flex-col"
             >
                 <h2 className="text-center">Login</h2>

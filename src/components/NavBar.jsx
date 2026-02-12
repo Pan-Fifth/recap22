@@ -9,6 +9,8 @@ function NavBar() {
         <NavLink to="register" className="hover:text-rose-600">Register</NavLink>
         <NavLink to="post" className="hover:text-rose-600">Post</NavLink>
         <NavLink to="login" className="hover:text-rose-600">Login</NavLink>
+        <NavLink to="profile" className="hover:text-rose-600">Profile</NavLink>
+        <NavLink to="token-profile" className="hover:text-rose-600">Token Profile</NavLink>
       </div>
     </div>
   );
