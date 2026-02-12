@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
+import { registerValidator } from "../validators/register.validator";
 
 function Register() {
   const [formData, setFormdata] = useState({
@@ -10,8 +11,9 @@ function Register() {
     email: "",
     phone: "",
   });
+  const [error, setError] = useState(null)
   const inputStyle = "border p-0.5 px-2 border-gray-500 rounded-md";
-  
+
   const navigate = useNavigate()
 
   const hdlChange = (evt) => {
@@ -22,7 +24,14 @@ function Register() {
 
   const hdlSubmit = async (evt) => {
     evt.preventDefault();
-
+    setError({})
+    const result = registerValidator.safeParse(formData)
+    if (!result.success) {
+      const { fieldErrors } = result.error.flatten()
+      console.log(fieldErrors)
+      setError(fieldErrors)
+      return;
+    }
     try {
       const res = await axios.post(
         "https://jsonplaceholder.typicode.com/posts",
@@ -31,14 +40,14 @@ function Register() {
       console.log("Register successfully", res.data);
       toast.success("ลงทะเบียนสำเร็จ!!")
       navigate('/post')
-      
+
     } catch (error) {
       console.log("เกิดข้อผิดพลาด");
       toast.error("ลงทะเบียนผิดพลาด")
     }
   };
 
-
+  console.log("error", error)
   return (
     <div className="min-h-screen bg-gray-50 flex justify-center items-center p-4">
       <form
@@ -55,6 +64,7 @@ function Register() {
           onChange={hdlChange}
           value={formData.username}
         ></input>
+        {error?.username && <p className="text-red-500">{error?.username[0]}</p>}
 
         <label htmlFor="" name="password">
           password:
@@ -67,16 +77,18 @@ function Register() {
           onChange={hdlChange}
           value={formData.password}
         ></input>
+        {error?.password && <p className="text-red-500">{error?.password[0]}</p>}
 
         <label htmlFor="">email:</label>
         <input
-          type="email"
+          type="text"
           className={inputStyle}
           name="email"
           placeholder="example@mail.com"
           onChange={hdlChange}
           value={formData.email}
         ></input>
+        {error?.email && <p className="text-red-500">{error?.email[0]}</p>}
 
         <label htmlFor="">phone:</label>
         <input
@@ -87,6 +99,8 @@ function Register() {
           onChange={hdlChange}
           value={formData.phone}
         ></input>
+        {error?.phone && <p className="text-red-500">{error?.phone[0]}</p>}
+
         <button className="bg-amber-300 py-1 mt-3 rounded-2xl cursor-pointer hover:bg-rose-400 transition-all duration-150">
           Register
         </button>
