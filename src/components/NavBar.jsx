@@ -8,6 +8,7 @@ function NavBar() {
         <NavLink to="/" className="hover:text-rose-600">Home</NavLink>
         <NavLink to="register" className="hover:text-rose-600">Register</NavLink>
         <NavLink to="post" className="hover:text-rose-600">Post</NavLink>
+        <NavLink to="login" className="hover:text-rose-600">Login</NavLink>
       </div>
     </div>
   );
